@@ -7,11 +7,11 @@ import {
   Cluster,
   FaAngleDownIcon,
   FilterDropdown,
+  FloatArea,
   FormControl,
   Heading,
   MultiCombobox,
   NotificationBar,
-  ResponseMessage,
   SearchInput,
   SegmentedControl,
   Sidebar,
@@ -236,9 +236,25 @@ export const App = () => {
       </header>
       <main className="app-container">
         <Stack gap={1.5}>
-          <ResponseMessage status="info">
-            掲載内容は口コミ投稿の要約です。設備・利用可否は現地の案内を確認してください。
-          </ResponseMessage>
+          <Base padding={1.25}>
+            <div className="hero">
+              <img
+                src="/illustrations/makeup.png"
+                alt=""
+                aria-hidden="true"
+                className="hero-illustration"
+              />
+              <Stack gap={0.5}>
+                <Text weight="bold">梅田で「キレイなトイレ」に迷わない</Text>
+                <Text size="S" color="TEXT_GREY">
+                  みんなの口コミで、近くの安心できるトイレとパウダールームが見つかります。
+                </Text>
+                <Text size="XS" color="TEXT_GREY">
+                  掲載内容は口コミの要約です。設備・利用可否は現地の案内をご確認ください。
+                </Text>
+              </Stack>
+            </div>
+          </Base>
 
           {notification && (
             <NotificationBar
@@ -256,23 +272,27 @@ export const App = () => {
           <Base padding={1}>
             <Stack gap={0.75}>
               <MapView spots={filteredSpots} selectedId={selectedSpotId} onSelect={handleSelectSpot} />
-              <SegmentedControl
-                options={categoryOptions}
-                value={categoryGroup}
-                size="S"
-                onClickOption={(value) => {
-                  setCategoryGroup(value)
-                  setVisibleCount(PAGE_SIZE)
-                }}
-              />
+              <div className="category-scroll">
+                <SegmentedControl
+                  options={categoryOptions}
+                  value={categoryGroup}
+                  size="S"
+                  onClickOption={(value) => {
+                    setCategoryGroup(value)
+                    setVisibleCount(PAGE_SIZE)
+                  }}
+                />
+              </div>
             </Stack>
           </Base>
 
           <Sidebar gap={0.5} align="center" right>
             <Heading>スポット</Heading>
-            <Button variant="primary" onClick={() => setIsDialogOpen(true)}>
-              口コミを投稿
-            </Button>
+            <div className="desktop-cta">
+              <Button variant="primary" onClick={() => setIsDialogOpen(true)}>
+                口コミを投稿
+              </Button>
+            </div>
           </Sidebar>
 
           <Base padding={1}>
@@ -330,6 +350,12 @@ export const App = () => {
               {visibleSpots.length === 0 ? (
                 <Center>
                   <div className="empty-message">
+                    <img
+                      src="/illustrations/discover.png"
+                      alt=""
+                      aria-hidden="true"
+                      className="empty-illustration"
+                    />
                     <Text whiteSpace="pre-line">
                       {'該当するトイレ・パウダールームはありません。\n別の条件を試してください。'}
                     </Text>
@@ -397,6 +423,12 @@ export const App = () => {
               {sortedReviews.length === 0 ? (
                 <Center>
                   <div className="empty-message">
+                    <img
+                      src="/illustrations/toilet.png"
+                      alt=""
+                      aria-hidden="true"
+                      className="empty-illustration"
+                    />
                     <Text whiteSpace="pre-line">
                       {'口コミはまだありません。\n最初の口コミを投稿してみてください。'}
                     </Text>
@@ -435,6 +467,17 @@ export const App = () => {
             </Base>
           </Stack>
         </Stack>
+
+        <div className="mobile-cta">
+          <FloatArea
+            bottom={0.75}
+            primaryButton={
+              <Button variant="primary" wide onClick={() => setIsDialogOpen(true)}>
+                口コミを投稿
+              </Button>
+            }
+          />
+        </div>
 
         <ReviewFormDialog
           isOpen={isDialogOpen}

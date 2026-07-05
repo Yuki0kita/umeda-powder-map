@@ -120,7 +120,7 @@ export const ReviewFormDialog = ({ isOpen, spots, defaultSpotId, onClose, onSubm
       onSubmit={handleSubmit}
       onClickClose={handleClose}
       onPressEscape={handleClose}
-      width={480}
+      size="M"
     >
       <div className="review-form">
         <FormControl
