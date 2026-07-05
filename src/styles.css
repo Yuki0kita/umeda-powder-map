@@ -112,7 +112,38 @@ body {
 .review-form {
   display: grid;
   gap: 16px;
-  min-width: 400px;
+}
+
+.hero {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.hero-illustration {
+  width: 88px;
+  height: 88px;
+  flex-shrink: 0;
+}
+
+.category-scroll {
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+
+.category-scroll > * {
+  white-space: nowrap;
+}
+
+.empty-illustration {
+  display: block;
+  width: 120px;
+  height: 120px;
+  margin: 0 auto 8px;
+}
+
+.mobile-cta {
+  display: none;
 }
 
 .location-picker {
@@ -120,4 +151,35 @@ body {
   height: 220px;
   margin-bottom: 4px;
   border: 1px solid #d6d3d0;
+}
+
+@media (max-width: 600px) {
+  .app-container {
+    padding: 16px 12px 112px;
+  }
+
+  .area-map {
+    height: 280px;
+  }
+
+  .location-picker {
+    height: 180px;
+  }
+
+  .filter-panel {
+    min-width: 260px;
+  }
+
+  .hero-illustration {
+    width: 72px;
+    height: 72px;
+  }
+
+  .desktop-cta {
+    display: none;
+  }
+
+  .mobile-cta {
+    display: contents;
+  }
 }

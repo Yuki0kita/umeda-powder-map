@@ -44,6 +44,10 @@ supabase db push --workdir .
 3. 環境変数に `VITE_SUPABASE_URL` と `VITE_SUPABASE_ANON_KEY` を設定
 4. Deploy
 
+## クレジット
+
+イラストは [Loose Drawing](https://loosedrawing.com/) の素材を使用しています（商用利用可・クレジット表記不要のフリー素材。感謝を込めて記載）。
+
 ## データについて
 
 初期掲載の26施設は口コミ投稿の要約に基づくナレッジです（`src/data.ts`）。座標は概算値のため、現地確認で随時更新してください。除外判断の記録は同ファイルの `EXCLUDED_ENTRIES` にあります。
