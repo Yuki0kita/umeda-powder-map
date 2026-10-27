@@ -19,6 +19,9 @@ import { type Review } from './reviews'
 const RATING_OPTIONS = ['5', '4', '3', '2', '1'] as const
 const DEFAULT_RATING = '5'
 const COMMENT_MAX_LETTERS = 200
+// DBのcheck制約と一致させる
+const AUTHOR_MAX_LETTERS = 30
+const SPOT_NAME_MAX_LETTERS = 100
 // 既存施設のIDと衝突しない、新規施設モードを表す予約値
 const NEW_SPOT_VALUE = '__new__'
 
@@ -70,8 +73,19 @@ export const ReviewFormDialog = ({ isOpen, spots, defaultSpotId, onClose, onSubm
     spotItem ?? spotItems.find((item) => item.value === defaultSpotId) ?? null
   const isNewSpot = selectedSpotItem?.value === NEW_SPOT_VALUE
   const newSpotReady = newSpotCategory !== '' && newSpotPosition !== null
+  const trimmedComment = comment.trim()
+  const newSpotNameValid =
+    !isNewSpot ||
+    (selectedSpotItem !== null &&
+      selectedSpotItem.label.trim().length > 0 &&
+      selectedSpotItem.label.trim().length <= SPOT_NAME_MAX_LETTERS)
   const canSubmit =
-    selectedSpotItem !== null && comment.trim().length > 0 && (!isNewSpot || newSpotReady)
+    selectedSpotItem !== null &&
+    trimmedComment.length > 0 &&
+    trimmedComment.length <= COMMENT_MAX_LETTERS &&
+    author.trim().length <= AUTHOR_MAX_LETTERS &&
+    newSpotNameValid &&
+    (!isNewSpot || newSpotReady)
 
   const resetForm = () => {
     setSpotItem(null)
@@ -92,14 +106,14 @@ export const ReviewFormDialog = ({ isOpen, spots, defaultSpotId, onClose, onSubm
     if (!canSubmit || !selectedSpotItem) return
     const review = {
       rating: Number(rating),
-      comment: comment.trim(),
+      comment: trimmedComment,
       author: author.trim() || '匿名',
     }
     if (isNewSpot) {
       if (!newSpotCategory || !newSpotPosition) return
       onSubmitted(review, {
         newSpot: {
-          name: selectedSpotItem.label,
+          name: selectedSpotItem.label.trim(),
           category: newSpotCategory,
           position: newSpotPosition,
         },
@@ -204,6 +218,7 @@ export const ReviewFormDialog = ({ isOpen, spots, defaultSpotId, onClose, onSubm
           <Input
             name="author"
             width="16em"
+            maxLength={AUTHOR_MAX_LETTERS}
             value={author}
             onChange={(e) => setAuthor(e.target.value)}
           />
